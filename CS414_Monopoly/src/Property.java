@@ -95,7 +95,7 @@ public class Property {
 	public int getPropertyRent()
 	{
 		int rentCost = 0;
-		switch(hotelBuilt)
+		switch(housesBuilt)
 		{
 		case 1:
 			rentCost = titleDeedCard.getTitleDeedCardRent().getOneHouse();

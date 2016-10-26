@@ -7,8 +7,8 @@ public class Player {
 	private int yPos;
 	private ArrayList<Property> propList = new ArrayList<Property>();
 	private int availCash;
-	private ArrayList<Property> mortgagePropList;
-	private ArrayList<Utility> utilList;
+	private ArrayList<Property> mortgagePropList = new ArrayList<Property>();
+	private ArrayList<Utility> utilList = new ArrayList<Utility>();
 	private boolean isJailed;
 	private int majorPos;
 	
@@ -101,6 +101,11 @@ public class Player {
 		this.propList.add(p);
 	}
 	
+	public void removeProperty(Property p)
+	{
+		this.propList.remove(p);
+	}
+	
 	public void addUtility(Utility u)
 	{
 		this.utilList.add(u);
@@ -116,10 +121,7 @@ public class Player {
 		this.utilList.remove(u);
 	}
 	
-	public void updateJailedStatus()
-	{
-		this.isJailed = true;
-	}
+	
 	
 	public void addMortgageProperty(Property p)
 	{
