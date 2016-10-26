@@ -11,13 +11,11 @@ public class Property {
 	private int gridX;
 	private int gridY;
 	private String propName;
-	
-	
-	
 
 	public Property(boolean isPropertyOwned, String colorSet, int propertyPrice, int housesBuilt, int hotelBuilt,
-			boolean isPropMortgaged, int gridX, int gridY, String propName) {
+			boolean isPropMortgaged, int gridX, int gridY, String propName, TitleDeedCard titleDeedCard) {
 		super();
+		this.titleDeedCard = titleDeedCard;
 		this.isPropertyOwned = isPropertyOwned;
 		this.colorSet = colorSet;
 		this.propertyPrice = propertyPrice;
@@ -37,6 +35,11 @@ public class Property {
 		this.propertyPrice = propertyPrice;
 	}
 
+	public String getPropertyName()
+	{
+		return this.propName;
+	}
+	
 	public TitleDeedCard getTitleDeedCard() {
 		return titleDeedCard;
 	}
