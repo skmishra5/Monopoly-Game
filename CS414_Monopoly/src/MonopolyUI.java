@@ -24,13 +24,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-public class MonopolyUI_1 extends JFrame implements ActionListener{
+public class MonopolyUI extends JFrame implements ActionListener{
 	
 	String m_numPlayers = null;
 	int gridInnerX = 0;
 	int gridInnerY = 0;
 	int m_playerTurn = 0;
-	int m_prevPlayerTurn = 0;
 	Board board =  new Board();
 	HashMap<String, String> m_blockLocation = new HashMap<String, String>();
 	JLabel playerCountRollDice = null;
@@ -44,13 +43,60 @@ public class MonopolyUI_1 extends JFrame implements ActionListener{
 	PropUtil propUtil;
 	Utility util;
 	JLabel Amount;
+	JPanel mainPanel = null;
+	JLabel jl = null;
+    JButton titleDeedCard = null;
+    JButton token = null;
+	
 	ArrayList<JLabel> availCashLables = new ArrayList<JLabel>();
 /*
 public static void main(String[] args) {
     new MonopolyUI().setVisible(true);
 }
 */
-public MonopolyUI_1(String numPlayers) {
+
+public void showDetails(String html,float alignnment,Color backGroundColor,boolean titleDeedCardFlag)
+{
+	jl = new JLabel(html);
+	jl.setAlignmentX(alignnment);
+    mainPanel.add(jl);
+    mainPanel.setBackground(backGroundColor);
+	titleDeedCard = new JButton("Title Deed Card");
+	if (titleDeedCardFlag == true)
+		titleDeedCard.setVisible(true);
+	else
+		titleDeedCard.setVisible(false);
+}
+	
+public ArrayList<JButton> hidingButtonTokens(ArrayList<JButton> tempBtnLoc,String tempLocation)
+{
+	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
+	{
+		token = new JButton("P"+ k);
+    	token.setSize(2,2);
+    	if (k == 1){
+    		token.setBackground(getBackground().BLUE);
+    	}
+    	else if(k == 2){
+    		token.setBackground(getBackground().RED);
+    	}
+    	else if(k == 3){
+    		token.setBackground(getBackground().YELLOW);
+    	}
+    	else if(k == 4){
+    		token.setBackground(getBackground().GREEN);
+    	}
+    	token.setVisible(false);
+    	
+    	tempBtnLoc.add(token);
+    	board.setPlayerLocation(tempLocation, tempBtnLoc);
+    	if((token != null)){
+    		mainPanel.add(token);}
+	}
+	return tempBtnLoc;
+}
+
+public MonopolyUI(String numPlayers) {
 	
 
     try {
@@ -63,93 +109,35 @@ public MonopolyUI_1(String numPlayers) {
         thisLayout.columnWeights = new double[] { 0.2, 0.1, 0.1, 0.1, 0.1,
                 0.1, 0.1, 0.1, 0.1, 0.1, 0.2};
         getContentPane().setLayout(thisLayout);
-        
-
         //Default Grid values
         int gridX = 0;
         int gridY = 0;
-        JLabel jl = null;
-        JButton titleDeedCard = null;
-        JButton token = null;
         //Add Panels for Each of the four sides
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 11; i++) {
-                JPanel mainPanel = new JPanel();
+                mainPanel = new JPanel();
                 mainPanel.setLayout(new BoxLayout(mainPanel,  BoxLayout.Y_AXIS));
                 switch(j)
                 {
                 case 0://Top Spaces
                     gridX = i;
                     gridY = 0;
-                    if(i == 0){                   	
-                    	jl = new JLabel("Free Parking");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    if(i == 0){  
+                    	showDetails( "Free Parking",CENTER_ALIGNMENT,getBackground().white,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+ k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Free Parking", tempLocation);
                     	block =  new Block("Free Parking", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 0, "Free Parking", false, false);
+                    	util = new Utility(gridX, gridY, 0, "Free Parking");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 1){
-                    	jl = new JLabel("<html>Kentucky<br>Avenue<br>$220</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().RED);
+                    	showDetails( "<html>Kentucky<br>Avenue<br>$220</html>",CENTER_ALIGNMENT,getBackground().RED,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Kentucky Avenue", tempLocation);
                     	block =  new Block("Kentucky Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -157,75 +145,21 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 2){
-                    	jl = new JLabel("Chance");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "Chance",CENTER_ALIGNMENT,getBackground().white,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Chance", tempLocation);
                     	block =  new Block("Chance", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 0, "Chance", false, false);
+                    	util = new Utility(gridX, gridY, 0, "Chance");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 3){
-                    	jl = new JLabel("<html>Indiana<br>Avenue<br>$220</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().RED);
+                    	showDetails( "<html>Indiana<br>Avenue<br>$220</html>",CENTER_ALIGNMENT,getBackground().RED,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Indiana Avenue", tempLocation);
                     	block =  new Block("Indiana Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -233,37 +167,10 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 4){
-                    	jl = new JLabel("<html>Illinois<br>Avenue<br>$240</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().RED);
+                    	showDetails( "<html>Illinois<br>Avenue<br>$240</html>",CENTER_ALIGNMENT,getBackground().RED,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Illinois Avenue", tempLocation);
                     	block =  new Block("Illinois Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -271,75 +178,21 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 5){
-                    	jl = new JLabel("<html>B&O<br>Railroad<br>$200</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>B&O<br>Railroad<br>$200</html>",CENTER_ALIGNMENT,getBackground().white,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("B&O Railroad", tempLocation);
                     	block =  new Block("B&O Railroad", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 200, "B&O Railroad", false, false);
+                    	util = new Utility(gridX, gridY, 200, "B&O Railroad");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 6){
-                    	jl = new JLabel("<html>Atlantic<br>Avenue<br>$260</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().YELLOW);
+                    	showDetails( "<html>Atlantic<br>Avenue<br>$260</html>",CENTER_ALIGNMENT,getBackground().YELLOW,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Atlantic Avenue", tempLocation);
                     	block =  new Block("Atlantic Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -347,37 +200,10 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 7){
-                    	jl = new JLabel("<html>Ventnor<br>Avenue<br>$260</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().YELLOW);
+                    	showDetails( "<html>Ventnor<br>Avenue<br>$260</html>",CENTER_ALIGNMENT,getBackground().YELLOW,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Ventnor Avenue", tempLocation);
                     	block =  new Block("Ventnor Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -385,75 +211,21 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 8){
-                    	jl = new JLabel("<html>Water<br>Works<br>$150</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>Water<br>Works<br>$150</html>",CENTER_ALIGNMENT,getBackground().white,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Water Works", tempLocation);
                     	block =  new Block("Water Works", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 150, "Water Works", false, false);
+                    	util = new Utility(gridX, gridY, 150, "Water Works");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 9){
-                    	jl = new JLabel("<html>Marvin<br>Gardens<br>$280</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().YELLOW);
+                    	showDetails( "<html>Marvin<br>Gardens<br>$280</html>",CENTER_ALIGNMENT,getBackground().YELLOW,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Marvin Gardens", tempLocation);
                     	block =  new Block("Marvin Gardens", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -461,41 +233,14 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 10){
-                    	jl = new JLabel("Go To Jail");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "Go To Jail",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Go To Jail", tempLocation);
                     	block =  new Block("Go To Jail", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 0, "Go To Jail", false, false);
+                    	util = new Utility(gridX, gridY, 0, "Go To Jail");
                     	board.setUtilityList(tempLocation, util);
                     }
                     break;
@@ -503,75 +248,21 @@ public MonopolyUI_1(String numPlayers) {
                     gridX = 0;
                     gridY = i;
                     if(i == 0){
-                    	jl = new JLabel("Free Parking");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails("Free Parking",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Free Parking", tempLocation);
                     	block =  new Block("Free Parking", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 0, "Free Parking", false, false);
+                    	util = new Utility(gridX, gridY, 0, "Free Parking");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 1){
-                    	jl = new JLabel("<html>New York<br>Avenue<br>$200</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().orange);
+                    	showDetails( "<html>New York<br>Avenue<br>$200</html>",CENTER_ALIGNMENT,getBackground().ORANGE,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("New York Avenue", tempLocation);
                     	block =  new Block("New York Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -579,37 +270,10 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 2){
-                    	jl = new JLabel("<html>Tennessee<br>Avenue<br>$180</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().orange);
+                    	showDetails( "<html>Tennessee<br>Avenue<br>$180</html>",CENTER_ALIGNMENT,getBackground().ORANGE,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Tennessee Avenue", tempLocation);
                     	block =  new Block("Tennessee Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -617,75 +281,21 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 3){
-                    	jl = new JLabel("<html>Community<br>Chest</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>Community<br>Chest</html>",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Community Chest", tempLocation);
                     	block =  new Block("Community Chest", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 0, "Community Chest", false, false);
+                    	util = new Utility(gridX, gridY, 0, "Community Chest");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 4){
-                    	jl = new JLabel("<html>St. James<br>Place<br>$180</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().orange);
+                    	showDetails( "<html>St. James<br>Place<br>$180</html>",CENTER_ALIGNMENT,getBackground().ORANGE,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("St. James Place", tempLocation);
                     	block =  new Block("St. James Place", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -693,75 +303,21 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 5){
-                    	jl = new JLabel("<html>Pennsylvania<br>Railroad<br>$200</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>Pennsylvania<br>Railroad<br>$200</html>",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Pennsylvania Railroad", tempLocation);
                     	block =  new Block("Pennsylvania Railroad", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 200, "Pennsylvania Railroad", false, false);
+                    	util = new Utility(gridX, gridY, 200, "Pennsylvania Railroad");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 6){
-                    	jl = new JLabel("<html>Virginia<br>Avenue<br>$160</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().MAGENTA);
+                    	showDetails( "<html>Virginia<br>Avenue<br>$160</html>",CENTER_ALIGNMENT,getBackground().MAGENTA,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Virginia Avenue", tempLocation);
                     	block =  new Block("Virginia Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -769,37 +325,10 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 7){
-                    	jl = new JLabel("<html>States<br>Avenue<br>$140</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().MAGENTA);
+                    	showDetails( "<html>States<br>Avenue<br>$140</html>",CENTER_ALIGNMENT,getBackground().MAGENTA,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("States Avenue", tempLocation);
                     	block =  new Block("States Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -807,74 +336,21 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 8){
-                    	jl = new JLabel("<html>Electric<br>Company<br>$150</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>Electric<br>Company<br>$150</html>",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Electric Company", tempLocation);
                     	block =  new Block("Electric Company", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 150, "Electric Company", false, false);
+                    	util = new Utility(gridX, gridY, 150, "Electric Company");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 9){
-                    	jl = new JLabel("<html>St. Charles<br>Place<br>$140</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().MAGENTA);
+                    	showDetails( "<html>St. Charles<br>Place<br>$140</html>",CENTER_ALIGNMENT,getBackground().MAGENTA,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("St. Charles Place", tempLocation);
                     	block =  new Block("St. Charles Place", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -882,40 +358,14 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 10){
-                    	jl = new JLabel("<html>In Jail/Just<br>Visiting</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>In Jail/Just<br>Visiting</html>",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("In Jail/Just Visiting", tempLocation);
                     	block =  new Block("In Jail/Just Visiting", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 0, "In Jail/Just Visiting", false, false);
+                    	util = new Utility(gridX, gridY, 0, "In Jail/Just Visiting");
                     	board.setUtilityList(tempLocation, util);
                     }
                     break;
@@ -923,11 +373,7 @@ public MonopolyUI_1(String numPlayers) {
                     gridX = 10;
                     gridY = i;
                     if(i == 0){
-                    	jl = new JLabel("Extra");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "Extra",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
                     	{
                     		token = new JButton("P"+k);
@@ -950,37 +396,10 @@ public MonopolyUI_1(String numPlayers) {
                     	}
                     }
                     else if(i == 1){
-                    	jl = new JLabel("<html>Pacific<br>Avenue<br>$300</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().GREEN);
+                    	showDetails( "<html>Pacific<br>Avenue<br>$300</html>",CENTER_ALIGNMENT,getBackground().GREEN,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Pacific Avenue", tempLocation);
                     	block =  new Block("Pacific Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -988,37 +407,10 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 2){
-                    	jl = new JLabel("<html>North<br>Carolina<br>Avenue<br>$300</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().GREEN);
+                    	showDetails( "<html>North<br>Carolina<br>Avenue<br>$300</html>",CENTER_ALIGNMENT,getBackground().GREEN,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("North Carolina Avenue", tempLocation);
                     	block =  new Block("North Carolina Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -1026,75 +418,21 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 3){
-                    	jl = new JLabel("<html>Community<br>Chest</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>Community<br>Chest</html>",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Community Chest", tempLocation);
                     	block =  new Block("Community Chest", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 0, "Community Chest", false, false);
+                    	util = new Utility(gridX, gridY, 0, "Community Chest");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 4){
-                    	jl = new JLabel("<html>Pennsylvania<br>Avenue<br>$320</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().GREEN);
+                    	showDetails( "<html>Pennsylvania<br>Avenue<br>$320</html>",CENTER_ALIGNMENT,getBackground().GREEN,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Pennsylvania Avenue", tempLocation);
                     	block =  new Block("Pennsylvania Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -1102,113 +440,32 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 5){
-                    	jl = new JLabel("<html>Short Line<br>$200</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>Short Line<br>$200</html>",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Short Line", tempLocation);
                     	block =  new Block("Short Line", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 200, "Short Line", false, false);
+                    	util = new Utility(gridX, gridY, 200, "Short Line");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 6){
-                    	jl = new JLabel("Chance");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "Chance",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Chance", tempLocation);
                     	block =  new Block("Chance", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 0, "Chance", false, false);
+                    	util = new Utility(gridX, gridY, 0, "Chance");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 7){
-                    	jl = new JLabel("<html>Park Place<br>$350</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().blue);
+                    	showDetails( "<html>Park Place<br>$350</html>",CENTER_ALIGNMENT,getBackground().BLUE,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Park Place", tempLocation);
                     	block =  new Block("Park Place", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -1216,88 +473,29 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 8){
-                    	jl = new JLabel("<html>Luxury Tax<br>(pay $100)</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>Luxury Tax<br>(pay $100)</html>",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Luxury Tax", tempLocation);
                     	block =  new Block("Luxury Tax", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 100, "Luxury Tax", false, false);
+                    	util = new Utility(gridX, gridY, 100, "Luxury Tax");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 9){
-                    	jl = new JLabel("<html>Boardwalk<br>$400</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(getBackground().blue);
+                    	showDetails( "<html>Boardwalk<br>$400</html>",CENTER_ALIGNMENT,getBackground().BLUE,true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Boardwalk", tempLocation);
                     	block =  new Block("Boardwalk", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
                     	property = new Property(false, "blue", 400, 0, 0, false, gridX, gridY, "Boardwalk");
                     	board.setPropertyList(tempLocation, property);
-                    	
                     }
                     else if(i == 10){
-                    	jl = new JLabel("<html>Go<br>(collect $200)</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>Go<br>(collect $200)</html>",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
                     	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
@@ -1316,7 +514,6 @@ public MonopolyUI_1(String numPlayers) {
                         	else if(k == 4){
                         		token.setBackground(getBackground().GREEN);
                         	}
-                        	
                         	tempBtnLoc.add(token);
                         	board.setPlayerLocation(tempLocation, tempBtnLoc);
                         	if((token != null)){
@@ -1331,7 +528,7 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setBlockLocation("Go", tempLocation);
                     	block =  new Block("Go", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 200, "Go", false, false);
+                    	util = new Utility(gridX, gridY, 200, "Go");
                     	board.setUtilityList(tempLocation, util);
                     }
                     break;
@@ -1366,36 +563,10 @@ public MonopolyUI_1(String numPlayers) {
                     	}
                     }
                     else if(i == 1){
-                    	jl = new JLabel("<html>Connecticut<br>Avenue<br>$120</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(new Color( 173, 216, 230));
+                    	showDetails( "<html>Connecticut<br>Avenue<br>$120</html>",CENTER_ALIGNMENT,new Color( 173, 216, 230),true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Connecticut Avenue", tempLocation);
                     	block =  new Block("Connecticut Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -1403,36 +574,10 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 2){
-                    	jl = new JLabel("<html>Vermont<br>Avenue<br>$100</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(new Color( 173, 216, 230));
+                    	showDetails( "<html>Vermont<br>Avenue<br>$100</html>",CENTER_ALIGNMENT,new Color( 173, 216, 230),true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Vermont Avenue", tempLocation);
                     	block =  new Block("Vermont Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -1440,260 +585,76 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 3){
-                    	jl = new JLabel("Chance");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "Chance",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Chance", tempLocation);
                     	block =  new Block("Chance", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 0, "Chance", false, false);
+                    	util = new Utility(gridX, gridY, 0, "Chance");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 4){
-                    	jl = new JLabel("<html>Oriental<br>Avenue<br>$100</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(new Color( 173, 216, 230));
+                    	showDetails( "<html>Oriental<br>Avenue<br>$100</html>",CENTER_ALIGNMENT,new Color( 173, 216, 230),true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Oriental Avenue", tempLocation);
                     	block =  new Block("Oriental Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
                     	property = new Property(false, "lightBlue", 100, 0, 0, false, gridX, gridY, "Oriental Avenue");
                     	board.setPropertyList(tempLocation, property);
-                    	
                     }
                     else if(i == 5){
-                    	jl = new JLabel("<html>Reading<br>Railroad<br>$200</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>Reading<br>Railroad<br>$200</html>",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Reading Railroad", tempLocation);
                     	block =  new Block("Reading Railroad", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 200, "Reading Railroad", false, false);
+                    	util = new Utility(gridX, gridY, 200, "Reading Railroad");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 6){
-                    	jl = new JLabel("<html>Income<br>Tax<br>(pay $200)</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>Income<br>Tax<br>(pay $200)</html>",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Income Tax", tempLocation);
                     	block =  new Block("Income Tax", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 200, "Income Tax", false, false);
+                    	util = new Utility(gridX, gridY, 200, "Income Tax");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 7){
-                    	jl = new JLabel("<html>Baltic<br>Avenue<br>$60</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(new Color( 165, 42, 42));
+                    	showDetails( "<html>Baltic<br>Avenue<br>$60</html>",CENTER_ALIGNMENT,new Color( 165, 42, 42),true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Baltic Avenue", tempLocation);
                     	block =  new Block("Baltic Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
                     	property = new Property(false, "brown", 60, 0, 0, false, gridX, gridY, "Baltic Avenue");
                     	board.setPropertyList(tempLocation, property);
-                    	
                     }
                     else if(i == 8){
-                    	jl = new JLabel("<html>Community<br>Chest</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>Community<br>Chest</html>",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Community Chest", tempLocation);
                     	block =  new Block("Community Chest", propUtil.UTILITY);
                     	board.setBlocks(tempLocation, block);
-                    	util = new Utility(gridX, gridY, 0, "Community Chest", false, false);
+                    	util = new Utility(gridX, gridY, 0, "Community Chest");
                     	board.setUtilityList(tempLocation, util);
                     }
                     else if(i == 9){
-                    	jl = new JLabel("<html>Mediterranean<br>Avenue<br>$60</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	mainPanel.setBackground(new Color( 165, 42, 42));
+                    	showDetails( "<html>Mediterranean<br>Avenue<br>$60</html>",CENTER_ALIGNMENT,new Color( 165, 42, 42),true);
                     	String tempLocation = gridX + ":" + gridY;
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
-                    	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
-                    	{
-                    		token = new JButton("P"+k);
-                        	token.setSize(2,2);
-                        	if (k == 1){
-                        		token.setBackground(getBackground().BLUE);
-                        	}
-                        	else if(k == 2){
-                        		token.setBackground(getBackground().RED);
-                        	}
-                        	else if(k == 3){
-                        		token.setBackground(getBackground().YELLOW);
-                        	}
-                        	else if(k == 4){
-                        		token.setBackground(getBackground().GREEN);
-                        	}
-                        	token.setVisible(false);
-                        	tempBtnLoc.add(token);
-                        	board.setPlayerLocation(tempLocation, tempBtnLoc);
-                        	if((token != null)){
-                        		mainPanel.add(token);}
-                    	}
-                    	
+                    	tempBtnLoc = hidingButtonTokens(tempBtnLoc,tempLocation); 
                     	board.setBlockLocation("Mediterranean Avenue", tempLocation);
                     	block =  new Block("Mediterranean Avenue", propUtil.PROPERTY);
                     	board.setBlocks(tempLocation, block);
@@ -1701,11 +662,7 @@ public MonopolyUI_1(String numPlayers) {
                     	board.setPropertyList(tempLocation, property);
                     }
                     else if(i == 10){
-                    	jl = new JLabel("<html>Extra<br>(collect $200)</html>");
-                    	jl.setAlignmentX(CENTER_ALIGNMENT);
-                        mainPanel.add(jl);
-                    	titleDeedCard = new JButton("Title Deed Card");
-                    	titleDeedCard.setVisible(false);
+                    	showDetails( "<html>Go<br>(collect $200)</html>",CENTER_ALIGNMENT,getBackground().WHITE,false);
                     	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
                     	{
                     		token = new JButton("P"+k);
@@ -1829,7 +786,6 @@ public void showMessage(int plNum)
 public void actionPerformed(ActionEvent e) {
 	
 	m_playerTurn += 1;
-	
 	if(m_playerTurn <= Integer.parseInt(m_numPlayers))
 	{
 		if(m_playerTurn != Integer.parseInt(m_numPlayers) + 1)
@@ -1849,11 +805,6 @@ public void actionPerformed(ActionEvent e) {
 	diceValue2.setText(Integer.toString(firstDiceValue2));
 	
 	handlePlayerMovement(m_playerTurn, firstDiceValue1, firstDiceValue2);
-	if(firstDiceValue1 == firstDiceValue2)
-	{
-		m_playerTurn = m_prevPlayerTurn;
-	}
-	m_prevPlayerTurn = m_playerTurn;
 }
 
 public void handlePlayerMovement(int playerNumber, int dVal1, int dVal2)
@@ -2001,7 +952,6 @@ public void handleBuyAuction(JButton tempBtn, Player tempPlayer, int xPos, int y
 {
 	Block tempBlk = null;
 	Property tempProp = null;
-	Utility tempUtil = null;
 	
 	Object[] options = { "Buy", "Auction" };
 	int n = -1;
@@ -2030,18 +980,6 @@ public void handleBuyAuction(JButton tempBtn, Player tempPlayer, int xPos, int y
 				}
 			}
 		}
-		else
-		{
-			tempUtil = board.getUtility(xPos+":"+yPos);
-			if(tempUtil.isUtilityOwned() == false)
-			{
-				int amt = tempUtil.getPrice();
-				if(amt < tempPlayer.getAvailCash())
-				{
-					
-				}
-			}
-		}
 	}
 	else if(n == 1)
 	{
@@ -2054,5 +992,4 @@ public void handleBuyAuction(JButton tempBtn, Player tempPlayer, int xPos, int y
 		
 	}
 }
-
 }
