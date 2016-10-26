@@ -897,6 +897,8 @@ public void actionPerformed(ActionEvent e) {
 	break;
 	}
 	diceVal = monopolyUIObj.throwDice();
+                diceValue1.setText(Integer.toString(diceVal[0]));
+	        diceValue2.setText(Integer.toString(diceVal[1]));
 	//Move only if the player is not jailed
 	if(tempPlayer.isJailed() == false)
 	handlePlayerMovement(m_playerTurn, diceVal[0], diceVal[1]);
@@ -914,11 +916,8 @@ public int[] throwDice()
 {
 	int[] diceVal = new int[2] ;
 	diceVal[0]  = randDiceValue.nextInt(6) + 1;
-	diceValue1.setText(Integer.toString(diceVal[0]));
 	diceVal[1] = randDiceValue.nextInt(6) + 1;
-	diceValue2.setText(Integer.toString(diceVal[1]));
 	return diceVal;
-	
 }
 
 public void handlePlayerMovement(int playerNumber, int dVal1, int dVal2)
