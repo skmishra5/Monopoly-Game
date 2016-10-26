@@ -19,11 +19,14 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
 
@@ -51,6 +54,8 @@ public class MonopolyUI extends JFrame implements ActionListener{
 	JLabel jl = null;
     JButton titleDeedCard = null;
     JButton token = null;
+    private int counter;
+	Timer timer;
 	
 	ArrayList<JLabel> availCashLables = new ArrayList<JLabel>();
 /*
@@ -62,7 +67,36 @@ public static void main(String[] args) {
 public MonopolyUI()
 {
 	
+	
 }
+
+
+public void startTimer(){
+	counter = 20;
+	JPanel timePane = new JPanel();
+	JLabel timerLabel = new JLabel("");
+	timePane.add(timerLabel);
+	add(timePane);
+	ActionListener taskPerformer = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			timerLabel.setText("Time Remaining: " + counter--);
+			if (counter < 0) {
+				JOptionPane.showInputDialog(this, "Time up");
+				timer.removeActionListener(this);
+				int maxBid = (int) Double.MIN_VALUE;
+				String winner = "";}
+				else {
+					JOptionPane.showInputDialog(this, "Bidding unsuccessful");
+					// frame.dispose();
+				}
+			}
+		};
+		timer = new Timer(1000, taskPerformer);
+		timer.start();
+}
+	
+
 
 public void showDetails(String html,float alignnment,Color backGroundColor,boolean titleDeedCardFlag, String tempLocation)
 {
@@ -564,7 +598,7 @@ public MonopolyUI(String numPlayers) {
                         	if((token != null)){
                         		mainPanel.add(token);}
                         	String playerName = "Player" + " " + k;
-                        	int cash = 1500;
+                        	int cash = 2000;
                         	player = new Player(playerName, gridX, gridY, cash); 
                         	listOfPlayers.add(player);
                         	player.setMajorPos(j);
@@ -774,7 +808,7 @@ public MonopolyUI(String numPlayers) {
         		playerEventHandling(playerInfo, i);
         		String balance = "Balance:";
         		JLabel Balance = new JLabel(balance);
-        		String amount = "$1500";
+        		String amount = "$2000";
         		Amount = new JLabel(amount);
         		availCashLables.add(Amount);
         		JButton rollDice = new JButton("Roll Dice");
@@ -834,8 +868,23 @@ public void playerEventHandling(JButton pl, int playerNum)
 
 public void showMessage(int plNum)
 {
-	String msg = listOfPlayers.get(plNum-1).getName() +  ":" +Integer.toString(listOfPlayers.get(plNum-1).getAvailCash());
-	JOptionPane.showMessageDialog(this, msg);
+	String msgHTML = "<html>" + listOfPlayers.get(plNum-1).getName() +  ":" +Integer.toString(listOfPlayers.get(plNum-1).getAvailCash()) + "<br>";
+	msgHTML+= "Property:<br>";
+	for(Property prop: listOfPlayers.get(plNum-1).getPropList())
+	{
+		msgHTML+=prop.getPropertyName() + ": HouseBuit: " + prop.getHousesBuilt() + ": Hotels Built:" + prop.getHotelBuilt();
+		msgHTML+="<br>";
+	}
+	
+	msgHTML+= "Utility:<br>";
+	for(Utility util: listOfPlayers.get(plNum-1).getUtilList())
+	{
+		msgHTML+=util.getUtilityName();
+		msgHTML+="<br>";
+	}
+	
+	msgHTML+="</html>";
+	JOptionPane.showMessageDialog(this, msgHTML);
 }
 
 public void showDisplayMessage(String msg)
@@ -865,6 +914,20 @@ public void showMessage(String loc)
 	JOptionPane.showMessageDialog(this, msg);
 }
 
+public int getUnMortgageOptions(Player player)
+{
+	Object[] options = { "Yes", "No" };
+	
+	String messageHTML = "<html>Mortaged Property List:<br>";
+	for(Property prop: player.getMortgagePropList())
+		messageHTML+=prop.getPropertyName()+"<br>";
+	messageHTML+="<br> Do you want to mortage any of the property from the bank?";
+		
+	int n = JOptionPane.showOptionDialog(this,messageHTML,
+			"UnMortgage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 																								
+			options[0]);
+	return n;
+}
 
 @Override
 public void actionPerformed(ActionEvent e) {
@@ -882,29 +945,66 @@ public void actionPerformed(ActionEvent e) {
 		m_playerTurn = 1;
 		playerCountRollDice.setText("Player: " + m_playerTurn);
 	}
-	//Give the player an option to unmortgage a property during the players turn
 	
+	Player tempPlayer = listOfPlayers.get(m_playerTurn-1);
+	//Give the player an option to unmortgage a property during the players turn
+	if(tempPlayer.getMortgagePropList().size() > 0)
+	{
+		//Unmortgage Option should be provided
+		int option = getUnMortgageOptions(tempPlayer);
+		if(option == 0)
+		{
+			//Player wants to unmortgage
+			//Provide the list of properties to be unmortgaged
+			Map<String,Property> map = new HashMap<String,Property>();
+			String[] propList = new String[(int)tempPlayer.getMortgagePropList().size()];
+			int i = 0;
+			for(Property prop : tempPlayer.getMortgagePropList())
+			{
+				propList[i] = prop.getPropertyName();
+				map.put(prop.getPropertyName(), prop);
+				i++;
+			}
+			
+			String propertyName = (String) JOptionPane.showInputDialog(this,"Select the Property","Mortgage/Sell Property ",
+					JOptionPane.QUESTION_MESSAGE,null,propList,propList[0]);
+		
+				//Mortgage the property to the Bank
+				Property prop = map.get(propertyName);
+				prop.setPropMortgaged(false);
+				tempPlayer.deductCash(prop.getTitleDeedCard().getMortgageValue() + (int)(0.1 * prop.getTitleDeedCard().getMortgageValue()));
+				tempPlayer.removeMortgageProperty(prop);
+				tempPlayer.addProperty(prop);
+				banker.unmortgageProperty(prop);
+		}
+		//Else Do nothing
+	}
 	
 	int[] diceVal = null;
 	int rollCount = 0;
 	do
 	{
-		Player tempPlayer = listOfPlayers.get(m_playerTurn-1);
+		
 		if(rollCount == 1)
 			monopolyUIObj.showDisplayMessage("Player gets a chance to roll the dice again");
 		//Goto Jail when rolling double for the third time
 		else if(rollCount==2)
 		{
-			monopolyUIObj.showDisplayMessage("Player rolled thrice the dice of same value and lands in Jail");
+			monopolyUIObj.showDisplayMessage("Player rolled thrice the dice of same value and lands in Jail i.e) Player doesn't get the rolling chance again");
 			tempPlayer.setJailed(true);
 			break;
 		}
 		diceVal = monopolyUIObj.throwDice();
+		diceValue1.setText(Integer.toString(diceVal[0]));
+		diceValue2.setText(Integer.toString(diceVal[1]));
 		//Move only if the player is not jailed
 		if(tempPlayer.isJailed() == false)
 			handlePlayerMovement(m_playerTurn, diceVal[0], diceVal[1]);
 		else
+		{
 			tempPlayer.setJailed(false);
+			break;
+		}
 		
 		rollCount++;
 		
@@ -915,11 +1015,9 @@ public void actionPerformed(ActionEvent e) {
 
 public int[] throwDice()
 {
-	int[] diceVal = null ;
+	int[] diceVal = new int[2];
 	diceVal[0]  = randDiceValue.nextInt(6) + 1;
-	diceValue1.setText(Integer.toString(diceVal[0]));
 	diceVal[1] = randDiceValue.nextInt(6) + 1;
-	diceValue2.setText(Integer.toString(diceVal[1]));
 	return diceVal;
 	
 }
@@ -1082,8 +1180,8 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 		//Once landed check whether, its un owned
 		if(tempProp.isPropOwned() == false){
 			//Request the user whether to buy it action it
-			int n = JOptionPane.showOptionDialog(this, "Would you like to buy or bid the property?",
-					" Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 																								
+			int n = JOptionPane.showOptionDialog(this, "<html>Would you like to buy or bid the property?<br>Property: " + tempProp.getPropertyName() + "<br>Cost: " + tempProp.getPropertyPrice() +"</html>" ,
+					"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 																								
 					options[0]); // default button title
 			
 			//Player wants to buy the property
@@ -1107,14 +1205,8 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 			}
 			else
 			{
-					BiddingWindow mono = new BiddingWindow(listOfPlayers);
-					tempPlayer = mono.getWinner();
-					tempPlayer.addProperty(tempProp);
-					tempPlayer.deductCash(tempProp.getPropertyPrice());
-					tempProp.setPlayer(tempPlayer);
-					tempProp.setPropertyOwned(true);
-					availCashLables.get(playerNumber - 1).setText(
-							Integer.toString(tempPlayer.getAvailCash()));
+				Property biddingProp = board.getProperty(xPos + ":" + yPos);
+				BiddingWindow mono = new BiddingWindow(listOfPlayers,biddingProp);
 			}
 			
 		}
@@ -1135,7 +1227,7 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 				switch(housesBuilt)
 				{
 				case 0: 
-					n = monopolyUIObj.getOptions("Buy 1 house for " + houseCost);
+					n = monopolyUIObj.getBuyHousesOptions("Buy 1 house for " + houseCost);
 					if(n == 0)
 					{
 						if(playerAvailableCash > houseCost)
@@ -1158,7 +1250,7 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 					}
 					break;
 				case 1: 
-					n = monopolyUIObj.getOptions("Buy 2nd house for " + houseCost);
+					n = monopolyUIObj.getBuyHousesOptions("Buy 2nd house for " + houseCost);
 					if(n == 0)
 					{
 						if(playerAvailableCash > houseCost)
@@ -1182,7 +1274,7 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 					break;
 				
 				case 2: 
-					n = monopolyUIObj.getOptions("Buy 3rd house for " + houseCost);
+					n = monopolyUIObj.getBuyHousesOptions("Buy 3rd house for " + houseCost);
 					if(n == 0)
 					{
 						if(playerAvailableCash > houseCost)
@@ -1205,7 +1297,7 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 					}
 					break;
 				case 3: 
-					n = monopolyUIObj.getOptions("Buy 4th house for " + houseCost);
+					n = monopolyUIObj.getBuyHousesOptions("Buy 4th house for " + houseCost);
 					if(n == 0)
 					{
 						if(playerAvailableCash > houseCost)
@@ -1229,7 +1321,7 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 					break;
 				case 4: 
 					int hotelCost = tempProp.getTitleDeedCard().getHotelCost();
-					n = monopolyUIObj.getOptions("Buy Hotel for " + hotelCost);
+					n = monopolyUIObj.getBuyHousesOptions("Buy Hotel for " + hotelCost);
 					if(n == 0)
 					{
 						if(playerAvailableCash > hotelCost)
@@ -1268,9 +1360,13 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 						//Show the user's property list and allow the user to sell or mortgage the property
 						//It needs to handle the condition where the user should pay or else the user should quit the game
 						sellItemsDisplay(tempPlayer);
+						
+						//Todo pay the rent to the owner
 					}
 					else
 					{
+						monopolyUIObj.showDisplayMessage("Player paid rent of " + rent+
+								"$ for landing in " + tempProp.getPropertyName() + " owned By " +tempProp.getPlayer().getName() );
 						//User have cash to pay the rent
 						tempPlayer.deductCash(rent);
 						tempProp.getPlayer().addCash(rent);
@@ -1291,9 +1387,6 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 		int playerAvailableCash = tempPlayer.getAvailCash();
 		if(tempUtil.isUtilityOwned() == false)
 		{
-			int amt = tempUtil.getPrice();
-			if(amt != 0)
-			{
 				if(tempName == "Income Tax")
 				{
 					if(playerAvailableCash > 20)
@@ -1336,6 +1429,7 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 				}
 				else if(tempName.toLowerCase().contains("railroad"))
 				{
+					int amt = tempUtil.getPrice();
 					int n = monopolyUIObj.getOptions("Buy"+ tempName + "for " + amt );
 					if(n == 0)
 					{
@@ -1347,7 +1441,6 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 					}
 					//Else do nothing
 				}
-			}
 		}
 		else
 		{
@@ -1366,8 +1459,8 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 
 public void sellItemsDisplay(Player player)
 {
+	MonopolyUI monopolyUIObj = new MonopolyUI();
 	Map<String,Property> map = new HashMap<String,Property>();
-	SellWindow obj = new SellWindow();
 	String[] propList = new String[(int)player.getPropList().size()];
 	int i = 0;
 	for(Property prop : player.getPropList())
@@ -1377,24 +1470,60 @@ public void sellItemsDisplay(Player player)
 		i++;
 	}
 	
-	String[] option = obj.createWindow(propList).split(":");
+	//Ask the User whether to mortgage or sell
+	String[] option = new String[2];
+	int mortgageSellOption = monopolyUIObj.getMortgageSellOptions();
+	if(mortgageSellOption == 0)
+		option[0] = "Mortgage";
+	else
+		option[0] = "Sell";
+		
+	//Ask the user of which property needs to be sold
+	
+	option[1] = (String) JOptionPane.showInputDialog(this,"Select the Property","Mortgage/Sell Property ",
+			JOptionPane.QUESTION_MESSAGE,null,propList,propList[0]);
+	
+	Property prop = map.get(option[1]);
 	if(option[0].equals("Mortgage"))
 	{
 		//Mortgage the property to the Bank
-		Property prop = map.get(option[1]);
 		prop.setPropMortgaged(true);
 		player.addCash(prop.getTitleDeedCard().getMortgageValue());
 		player.addMortgageProperty(prop);
 		player.removeProperty(prop);
+		banker.mortgageProperty(prop);
 	}
 	else if(option[0].equals("Sell"))
 	{
 		//Triger the sell/Bid window.
-		
 		//Find the winner of the property &  Sell the property 
+		BiddingWindow mono = new BiddingWindow(listOfPlayers,prop);
+		player.addCash(prop.getPropertyPrice());
+		player.addProperty(prop);
+		player.removeProperty(prop);
 	}
 	
 }
+
+
+public int getMortgageSellOptions()
+{
+	Object[] options = { "Mortgage", "Sell" };
+	int n = JOptionPane.showOptionDialog(this, "User ran out of money to pay the rent/ Buy the property. Do you want to Mortgage/Sell?",
+			"Mortgage/Sell", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 																								
+			options[0]);
+	return n;
+}
+
+public int getBuyHousesOptions(String message)
+{
+	Object[] options = { "Buy", "Cancel" };
+	int n = JOptionPane.showOptionDialog(this, message,
+			"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 																								
+			options[0]);
+	return n;
+}
+
 
 public int getOptions(String message)
 {
