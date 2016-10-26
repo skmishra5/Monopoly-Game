@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class Banker {
-	private ArrayList<Player> playerList = new ArrayList<Player>();
-	private ArrayList<Property> propertyList = new ArrayList<Property>();
-	private ArrayList<Property> mortPropList = new ArrayList<Property>();
+	private ArrayList<Player> playerList;
+	private ArrayList<Property> propertyList;
+	private ArrayList<Property> mortPropList;
 	private int availHouses;
 	private int availHotels;
 	private int availCash;
@@ -18,6 +18,7 @@ public class Banker {
 		this.availHouses = availHouses;
 		this.availHotels = availHotels;
 		this.availCash = availCash;
+		mortPropList = new ArrayList<>();
 	}
 	public ArrayList<Player> getPlayerList() {
 		return playerList;
@@ -73,5 +74,7 @@ public class Banker {
 		this.availHouses-=houseCount;
 	}
 	
-	
+	public  ArrayList<Property> getMortgageList(){
+		return mortPropList;
+	}
 }
