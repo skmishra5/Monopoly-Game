@@ -1206,6 +1206,7 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 			else
 			{
 				Property biddingProp = board.getProperty(xPos + ":" + yPos);
+				//All the changes are made to the Player itself
 				BiddingWindow mono = new BiddingWindow(listOfPlayers,biddingProp);
 			}
 			
