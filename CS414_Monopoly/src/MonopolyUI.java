@@ -9,8 +9,10 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
@@ -70,10 +72,10 @@ public void showDetails(String html,float alignnment,Color backGroundColor,boole
     mainPanel.setBackground(backGroundColor);
 	titleDeedCard = new JButton("Title Deed Card");
 	if (titleDeedCardFlag == true){
-	titleDeedCard.setVisible(true);
-	titleDeedCardEventHandling(titleDeedCard, tempLocation);}
+		titleDeedCard.setVisible(true);
+		titleDeedCardEventHandling(titleDeedCard, tempLocation);}
 	else{
-	titleDeedCard.setVisible(false);}
+		titleDeedCard.setVisible(false);}
 	
 }
 	
@@ -81,26 +83,26 @@ public ArrayList<JButton> hidingButtonTokens(ArrayList<JButton> tempBtnLoc,Strin
 {
 	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
 	{
-	token = new JButton("P"+ k);
+		token = new JButton("P"+ k);
     	token.setSize(2,2);
     	if (k == 1){
-    	token.setBackground(getBackground().BLUE);
+    		token.setBackground(getBackground().BLUE);
     	}
     	else if(k == 2){
-    	token.setBackground(getBackground().RED);
+    		token.setBackground(getBackground().RED);
     	}
     	else if(k == 3){
-    	token.setBackground(getBackground().YELLOW);
+    		token.setBackground(getBackground().YELLOW);
     	}
     	else if(k == 4){
-    	token.setBackground(getBackground().GREEN);
+    		token.setBackground(getBackground().GREEN);
     	}
     	token.setVisible(false);
     	
     	tempBtnLoc.add(token);
     	board.setPlayerLocation(tempLocation, tempBtnLoc);
     	if((token != null)){
-    	mainPanel.add(token);}
+    		mainPanel.add(token);}
 	}
 	return tempBtnLoc;
 }
@@ -409,23 +411,23 @@ public MonopolyUI(String numPlayers) {
                     	showDetails( "Extra",CENTER_ALIGNMENT,getBackground().WHITE,false, null);
                     	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
                     	{
-                    	token = new JButton("P"+k);
+                    		token = new JButton("P"+k);
                         	token.setSize(2,2);
                         	if (k == 1){
-                        	token.setBackground(getBackground().BLUE);
+                        		token.setBackground(getBackground().BLUE);
                         	}
                         	else if(k == 2){
-                        	token.setBackground(getBackground().RED);
+                        		token.setBackground(getBackground().RED);
                         	}
                         	else if(k == 3){
-                        	token.setBackground(getBackground().YELLOW);
+                        		token.setBackground(getBackground().YELLOW);
                         	}
                         	else if(k == 4){
-                        	token.setBackground(getBackground().GREEN);
+                        		token.setBackground(getBackground().GREEN);
                         	}
                         	token.setVisible(false);
                         	if((token != null)){
-                        	mainPanel.add(token);}
+                        		mainPanel.add(token);}
                     	}
                     }
                     else if(i == 1){
@@ -543,24 +545,24 @@ public MonopolyUI(String numPlayers) {
                     	ArrayList<JButton> tempBtnLoc = new ArrayList<JButton>();
                     	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
                     	{
-                    	token = new JButton("P"+k);
+                    		token = new JButton("P"+k);
                         	token.setSize(2,2);
                         	if (k == 1){
-                        	token.setBackground(getBackground().BLUE);
+                        		token.setBackground(getBackground().BLUE);
                         	}
                         	else if(k == 2){
-                        	token.setBackground(getBackground().RED);
+                        		token.setBackground(getBackground().RED);
                         	}
                         	else if(k == 3){
-                        	token.setBackground(getBackground().YELLOW);
+                        		token.setBackground(getBackground().YELLOW);
                         	}
                         	else if(k == 4){
-                        	token.setBackground(getBackground().GREEN);
+                        		token.setBackground(getBackground().GREEN);
                         	}
                         	tempBtnLoc.add(token);
                         	board.setPlayerLocation(tempLocation, tempBtnLoc);
                         	if((token != null)){
-                        	mainPanel.add(token);}
+                        		mainPanel.add(token);}
                         	String playerName = "Player" + " " + k;
                         	int cash = 1500;
                         	player = new Player(playerName, gridX, gridY, cash); 
@@ -586,23 +588,23 @@ public MonopolyUI(String numPlayers) {
                     	titleDeedCard.setVisible(false);
                     	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
                     	{
-                    	token = new JButton("P"+k);
+                    		token = new JButton("P"+k);
                         	token.setSize(2,2);
                         	if (k == 1){
-                        	token.setBackground(getBackground().BLUE);
+                        		token.setBackground(getBackground().BLUE);
                         	}
                         	else if(k == 2){
-                        	token.setBackground(getBackground().RED);
+                        		token.setBackground(getBackground().RED);
                         	}
                         	else if(k == 3){
-                        	token.setBackground(getBackground().YELLOW);
+                        		token.setBackground(getBackground().YELLOW);
                         	}
                         	else if(k == 4){
-                        	token.setBackground(getBackground().GREEN);
+                        		token.setBackground(getBackground().GREEN);
                         	}
                         	token.setVisible(false);
                         	if((token != null)){
-                        	mainPanel.add(token);}
+                        		mainPanel.add(token);}
                     	}
                     }
                     else if(i == 1){
@@ -718,23 +720,23 @@ public MonopolyUI(String numPlayers) {
                     	showDetails( "<html>Go<br>(collect $200)</html>",CENTER_ALIGNMENT,getBackground().WHITE,false, null);
                     	for (int k = 1; k <= Integer.parseInt(m_numPlayers); k++)
                     	{
-                    	token = new JButton("P"+k);
+                    		token = new JButton("P"+k);
                         	token.setSize(2,2);
                         	if (k == 1){
-                        	token.setBackground(getBackground().BLUE);
+                        		token.setBackground(getBackground().BLUE);
                         	}
                         	else if(k == 2){
-                        	token.setBackground(getBackground().RED);
+                        		token.setBackground(getBackground().RED);
                         	}
                         	else if(k == 3){
-                        	token.setBackground(getBackground().YELLOW);
+                        		token.setBackground(getBackground().YELLOW);
                         	}
                         	else if(k == 4){
-                        	token.setBackground(getBackground().GREEN);
+                        		token.setBackground(getBackground().GREEN);
                         	}
                         	token.setVisible(false);
                         	if((token != null)){
-                        	mainPanel.add(token);
+                        		mainPanel.add(token);
                         	}
                     	}
                     }
@@ -762,53 +764,53 @@ public MonopolyUI(String numPlayers) {
         	//JPanel innerPanel = new JPanel();
         	int j = 3;
         	
-    	String rollDicePlayerCount = "Player1 Start Rolling";
-    	playerCountRollDice = new JLabel(rollDicePlayerCount);
+    		String rollDicePlayerCount = "Player1 Start Rolling";
+    		playerCountRollDice = new JLabel(rollDicePlayerCount);
         	for (int i = 1; i <= nPlayers+2; i++)
         	{
-        	JPanel innerPanel = new JPanel();
-        	String player = "Player" + " " + i;
-        	JButton playerInfo = new JButton(player);
-        	playerEventHandling(playerInfo, i);
-        	String balance = "Balance:";
-        	JLabel Balance = new JLabel(balance);
-        	String amount = "$1500";
-        	Amount = new JLabel(amount);
-        	availCashLables.add(Amount);
-        	JButton rollDice = new JButton("Roll Dice");
+        		JPanel innerPanel = new JPanel();
+        		String player = "Player" + " " + i;
+        		JButton playerInfo = new JButton(player);
+        		playerEventHandling(playerInfo, i);
+        		String balance = "Balance:";
+        		JLabel Balance = new JLabel(balance);
+        		String amount = "$1500";
+        		Amount = new JLabel(amount);
+        		availCashLables.add(Amount);
+        		JButton rollDice = new JButton("Roll Dice");
+        		
         	
-        	
-        	getContentPane().add(
-        	innerPanel,
-        	new GridBagConstraints(4,
-        	j,
-        	1,
-        	1,
-        	0.0, 0.0,
-        	GridBagConstraints.CENTER,
-        	GridBagConstraints.BOTH,
-        	new Insets(0, 0, 0, 0), 0, 0));
-        	
-        	if(i == nPlayers+1)
-        	{
-        	innerPanel.add(rollDice);
-        	rollDice.addActionListener(this);
-        	innerPanel.add(playerCountRollDice);       	
-        	}
-        	else if (i == nPlayers+2)
-        	{
-        	innerPanel.add(diceValue1);
-        	innerPanel.add(diceValue2);
-        	}
-        	else{
-        	innerPanel.add(playerInfo);
-            	innerPanel.add(Balance);
-            	innerPanel.add(Amount);
-            	innerPanel.add(Box.createVerticalStrut(10));
-        	}
-        	
-        	
-        	j++;
+        		getContentPane().add(
+        				innerPanel,
+        				new GridBagConstraints(4,
+        						j,
+        						1,
+        						1,
+        						0.0, 0.0,
+        						GridBagConstraints.CENTER,
+        						GridBagConstraints.BOTH,
+        						new Insets(0, 0, 0, 0), 0, 0));
+        		
+        		if(i == nPlayers+1)
+        		{
+        			innerPanel.add(rollDice);
+        			rollDice.addActionListener(this);
+        			innerPanel.add(playerCountRollDice);       			
+        		}
+        		else if (i == nPlayers+2)
+        		{
+        			innerPanel.add(diceValue1);
+        			innerPanel.add(diceValue2);
+        		}
+        		else{
+        			innerPanel.add(playerInfo);
+            		innerPanel.add(Balance);
+            		innerPanel.add(Amount);
+            		innerPanel.add(Box.createVerticalStrut(10));
+        		}
+        		
+        		
+        		j++;
         	}
             
         }
@@ -823,10 +825,10 @@ public MonopolyUI(String numPlayers) {
 public void playerEventHandling(JButton pl, int playerNum)
 {
 	pl.addActionListener(new ActionListener() {
-	@Override
-	public void actionPerformed(ActionEvent e) {	
-	showMessage(playerNum);
-	}
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			showMessage(playerNum);
+		}
 	});
 }
 
@@ -844,10 +846,10 @@ public void showDisplayMessage(String msg)
 public void titleDeedCardEventHandling(JButton td, String loc)
 {
 	td.addActionListener(new ActionListener() {
-	@Override
-	public void actionPerformed(ActionEvent e) {	
-	showMessage(loc);
-	}
+		@Override
+		public void actionPerformed(ActionEvent e) {			
+			showMessage(loc);
+		}
 	});
 }
 
@@ -857,9 +859,9 @@ public void showMessage(String loc)
 	TitleDeedCard tempTd = tmpProp.getTitleDeedCard();
 	TitleDeedCardRent tempTdRent = tempTd.getTitleDeedCardRent(); 
 	String msg = "Property Name: " + tmpProp.getPropertyName() + "\n" + "Four House: " + Integer.toString(tempTdRent.getFourHouse()) + "\n" 
-	+ "One House: " + Integer.toString(tempTdRent.getOneHouse()) + "\n" + "Two House: " + Integer.toString(tempTdRent.getTwoHouse()) + "\n"
-	+ "Three House: " + Integer.toString(tempTdRent.getThreeHouse()) + "\n" + "Hotel Cost: " + tempTd.getHotelCost() + "\n" 
-	+ "House Cost: " + tempTd.getHouseCost() + "\n" + "Mortgage Value: " + tempTd.getMortgageValue();
+			+ "One House: " + Integer.toString(tempTdRent.getOneHouse()) + "\n" + "Two House: " + Integer.toString(tempTdRent.getTwoHouse()) + "\n"
+			+ "Three House: " + Integer.toString(tempTdRent.getThreeHouse()) + "\n" + "Hotel Cost: " + tempTd.getHotelCost() + "\n" 
+			+ "House Cost: " + tempTd.getHouseCost() + "\n" + "Mortgage Value: " + tempTd.getMortgageValue();
 	JOptionPane.showMessageDialog(this, msg);
 }
 
@@ -870,41 +872,42 @@ public void actionPerformed(ActionEvent e) {
 	m_playerTurn += 1;
 	if(m_playerTurn <= Integer.parseInt(m_numPlayers))
 	{
-	if(m_playerTurn != Integer.parseInt(m_numPlayers) + 1)
-	{
-	playerCountRollDice.setText("Player: " + m_playerTurn);
-	}	
+		if(m_playerTurn != Integer.parseInt(m_numPlayers) + 1)
+		{
+			playerCountRollDice.setText("Player: " + m_playerTurn);
+		}		
 	}
 	else
 	{
-	m_playerTurn = 1;
-	playerCountRollDice.setText("Player: " + m_playerTurn);
+		m_playerTurn = 1;
+		playerCountRollDice.setText("Player: " + m_playerTurn);
 	}
+	//Give the player an option to unmortgage a property during the players turn
 	
 	
 	int[] diceVal = null;
 	int rollCount = 0;
 	do
 	{
-	Player tempPlayer = listOfPlayers.get(m_playerTurn-1);
-	if(rollCount == 1)
-	monopolyUIObj.showDisplayMessage("Player gets a chance to roll the dice again");
-	//Goto Jail when rolling double for the third time
-	else if(rollCount==2)
-	{
-	monopolyUIObj.showDisplayMessage("Player rolled thrice the dice of same value and lands in Jail");
-	tempPlayer.setJailed(true);
-	break;
-	}
-	diceVal = monopolyUIObj.throwDice();
-	//Move only if the player is not jailed
-	if(tempPlayer.isJailed() == false)
-	handlePlayerMovement(m_playerTurn, diceVal[0], diceVal[1]);
-	else
-	tempPlayer.setJailed(false);
-	
-	rollCount++;
-	
+		Player tempPlayer = listOfPlayers.get(m_playerTurn-1);
+		if(rollCount == 1)
+			monopolyUIObj.showDisplayMessage("Player gets a chance to roll the dice again");
+		//Goto Jail when rolling double for the third time
+		else if(rollCount==2)
+		{
+			monopolyUIObj.showDisplayMessage("Player rolled thrice the dice of same value and lands in Jail");
+			tempPlayer.setJailed(true);
+			break;
+		}
+		diceVal = monopolyUIObj.throwDice();
+		//Move only if the player is not jailed
+		if(tempPlayer.isJailed() == false)
+			handlePlayerMovement(m_playerTurn, diceVal[0], diceVal[1]);
+		else
+			tempPlayer.setJailed(false);
+		
+		rollCount++;
+		
 	}while(diceVal[0] == diceVal[1]);
 	
 	
@@ -912,7 +915,7 @@ public void actionPerformed(ActionEvent e) {
 
 public int[] throwDice()
 {
-	int[] diceVal = new int[2] ;
+	int[] diceVal = null ;
 	diceVal[0]  = randDiceValue.nextInt(6) + 1;
 	diceValue1.setText(Integer.toString(diceVal[0]));
 	diceVal[1] = randDiceValue.nextInt(6) + 1;
@@ -931,8 +934,8 @@ public void handlePlayerMovement(int playerNumber, int dVal1, int dVal2)
 	
 	
 	if(eraseBtnFromGoPos.isVisible() == true)
-	{	
-	eraseBtnFromGoPos.setVisible(false);
+	{		
+		eraseBtnFromGoPos.setVisible(false);
 	}
 	
 	int totalMove = dVal1 + dVal2;
@@ -940,123 +943,123 @@ public void handlePlayerMovement(int playerNumber, int dVal1, int dVal2)
 	
 	if(majorPos == 2)
 	{
-	if (totalMove > xPos)
-	{
-	yPos = 10 - (totalMove - xPos);
-	xPos = 0;
-	tempPlayer.setMajorPos(1);
-	}
-	else if((yPos == 9) && (totalMove < xPos))
-	{
-	xPos = 10 - (totalMove - (10 - yPos));
-	yPos = 10;
-	}
-	else{
-	xPos = xPos - totalMove;
-	}
-	System.out.println("2" + ":" +xPos + ":" + yPos);
-	tempBtn = board.getPlayerLocation(xPos, yPos, playerNumber);
-	tempBtn.setVisible(true);
-	tempPlayer.setxPos(xPos);
-	tempPlayer.setyPos(yPos);
-	if ((xPos == 0) || (xPos == 1))
-	{
-	tempPlayer.setMajorPos(1);
-	}
+		if (totalMove > xPos)
+		{
+			yPos = 10 - (totalMove - xPos);
+			xPos = 0;
+			tempPlayer.setMajorPos(1);
+		}
+		else if((yPos == 9) && (totalMove < xPos))
+		{
+			xPos = 10 - (totalMove - (10 - yPos));
+			yPos = 10;
+		}
+		else{
+			xPos = xPos - totalMove;
+		}
+		System.out.println("2" + ":" +xPos + ":" + yPos);
+		tempBtn = board.getPlayerLocation(xPos, yPos, playerNumber);
+		tempBtn.setVisible(true);
+		tempPlayer.setxPos(xPos);
+		tempPlayer.setyPos(yPos);
+		if ((xPos == 0) || (xPos == 1))
+		{
+			tempPlayer.setMajorPos(1);
+		}
 	}
 	else if(majorPos == 1)
 	{
-	if (totalMove > yPos)
-	{
-	xPos = totalMove - yPos;
-	yPos = 0;
-	tempPlayer.setMajorPos(0);
-	}
-	else if ((xPos == 1) && (totalMove < yPos))
-	{
-	yPos = 10 - (totalMove - xPos);
-	xPos = 0;
-	}
-	else{
-	yPos = yPos - totalMove;
-	}
-	System.out.println("1" + ":" +xPos + ":" + yPos);
-	tempBtn = board.getPlayerLocation(xPos, yPos, playerNumber);
-	tempBtn.setVisible(true);
-	tempPlayer.setxPos(xPos);
-	tempPlayer.setyPos(yPos);
-	if ((yPos == 0) || ((yPos == 1)))
-	{
-	tempPlayer.setMajorPos(0);
-	}
+		if (totalMove > yPos)
+		{
+			xPos = totalMove - yPos;
+			yPos = 0;
+			tempPlayer.setMajorPos(0);
+		}
+		else if ((xPos == 1) && (totalMove < yPos))
+		{
+			yPos = 10 - (totalMove - xPos);
+			xPos = 0;
+		}
+		else{
+			yPos = yPos - totalMove;
+		}
+		System.out.println("1" + ":" +xPos + ":" + yPos);
+		tempBtn = board.getPlayerLocation(xPos, yPos, playerNumber);
+		tempBtn.setVisible(true);
+		tempPlayer.setxPos(xPos);
+		tempPlayer.setyPos(yPos);
+		if ((yPos == 0) || ((yPos == 1)))
+		{
+			tempPlayer.setMajorPos(0);
+		}
 	}
 	else if(majorPos == 0)
 	{
-	if(yPos == 1)
-	{
-	xPos = totalMove - yPos;
-	yPos = 0;
-	}
-	else if ((totalMove > xPos) && ((totalMove+xPos) > 10))
-	{
-	yPos = (totalMove + xPos) - 10;
-	xPos = 10;
-	tempPlayer.setMajorPos(3);
-	}
-	else if((yPos == 1) && (totalMove < xPos))
-	{
-	xPos = totalMove - yPos;
-	yPos = 0;
-	}
-	else if ((totalMove + xPos) > 10)
-	{
-	yPos = totalMove - (10 - xPos);
-	xPos = 10;
-	}
-	else{
-	xPos = xPos + totalMove;
-	}
-	System.out.println("0" + ":" +xPos + ":" + yPos);
-	tempBtn = board.getPlayerLocation(xPos, yPos, playerNumber);
-	tempBtn.setVisible(true);
-	tempPlayer.setxPos(xPos);
-	tempPlayer.setyPos(yPos);
-	if ((xPos == 10) || ((xPos == 9)))
-	{
-	tempPlayer.setMajorPos(3);
-	}
+		if(yPos == 1)
+		{
+			xPos = totalMove - yPos;
+			yPos = 0;
+		}
+		else if ((totalMove > xPos) && ((totalMove+xPos) > 10))
+		{
+			yPos = (totalMove + xPos) - 10;
+			xPos = 10;
+			tempPlayer.setMajorPos(3);
+		}
+		else if((yPos == 1) && (totalMove < xPos))
+		{
+			xPos = totalMove - yPos;
+			yPos = 0;
+		}
+		else if ((totalMove + xPos) > 10)
+		{
+			yPos = totalMove - (10 - xPos);
+			xPos = 10;
+		}
+		else{
+			xPos = xPos + totalMove;
+		}
+		System.out.println("0" + ":" +xPos + ":" + yPos);
+		tempBtn = board.getPlayerLocation(xPos, yPos, playerNumber);
+		tempBtn.setVisible(true);
+		tempPlayer.setxPos(xPos);
+		tempPlayer.setyPos(yPos);
+		if ((xPos == 10) || ((xPos == 9)))
+		{
+			tempPlayer.setMajorPos(3);
+		}
 	}
 	else if(majorPos == 3)
 	{
-	if ((totalMove > yPos) && ((totalMove + yPos) > 10))
-	{
-	xPos = 10 - ((totalMove + yPos) - 10);
-	yPos = 10;
-	tempPlayer.setMajorPos(2);
-	}
-	else if((xPos == 9))
-	{
-	yPos = totalMove - (10 - xPos);
-	xPos = 10;
-	}
-	else if(((totalMove + yPos) > 10) && (totalMove <= yPos))
-	{
-	xPos = 10 - (totalMove - (10 - yPos));
-	//xPos = 10 - (yPos - totalMove);
-	yPos = 10;
-	}
-	else{
-	yPos = yPos + totalMove;
-	}
-	System.out.println("3" + ":" +xPos + ":" + yPos);
-	tempBtn = board.getPlayerLocation(xPos, yPos, playerNumber);
-	tempBtn.setVisible(true);
-	tempPlayer.setxPos(xPos);
-	tempPlayer.setyPos(yPos);
-	if ((yPos == 10) || ((yPos == 9)))
-	{
-	tempPlayer.setMajorPos(2);
-	}
+		if ((totalMove > yPos) && ((totalMove + yPos) > 10))
+		{
+			xPos = 10 - ((totalMove + yPos) - 10);
+			yPos = 10;
+			tempPlayer.setMajorPos(2);
+		}
+		else if((xPos == 9))
+		{
+			yPos = totalMove - (10 - xPos);
+			xPos = 10;
+		}
+		else if(((totalMove + yPos) > 10) && (totalMove <= yPos))
+		{
+			xPos = 10 - (totalMove - (10 - yPos));
+			//xPos = 10 - (yPos - totalMove);
+			yPos = 10;
+		}
+		else{
+			yPos = yPos + totalMove;
+		}
+		System.out.println("3" + ":" +xPos + ":" + yPos);
+		tempBtn = board.getPlayerLocation(xPos, yPos, playerNumber);
+		tempBtn.setVisible(true);
+		tempPlayer.setxPos(xPos);
+		tempPlayer.setyPos(yPos);
+		if ((yPos == 10) || ((yPos == 9)))
+		{
+			tempPlayer.setMajorPos(2);
+		}
 	}
 	
 	takeAction(tempBtn, tempPlayer, xPos, yPos, playerNumber);
@@ -1075,289 +1078,321 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 	//Condition to check whether the landed place is a property
 	if(tempBlk.getPropUtil() == propUtil.PROPERTY)
 	{
-	tempProp = board.getProperty(xPos + ":" + yPos);
-	//Once landed check whether, its un owned
-	if(tempProp.isPropOwned() == false){
-	//Request the user whether to buy it action it
-	int n = JOptionPane.showOptionDialog(this, "Would you like to buy or bid the property?",
-	" Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 	
-	options[0]); // default button title
-	
-	//Player wants to buy the property
-	if (n == 0)
-	{
-	if(tempProp.getPropertyPrice() < tempPlayer.getAvailCash())
-	{
-	tempPlayer.addProperty(tempProp);
-	tempPlayer.deductCash(tempProp.getPropertyPrice());
-	tempProp.setPlayer(tempPlayer);
-	tempProp.setPropertyOwned(true);
-	availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
-	}
-	
-	else
-	{
-	//TODO
-	//Tell the User that the property can't be bought
-	}
-	}
-	else
-	{
-	System.out.println(n);
-	javax.swing.SwingUtilities.invokeLater(new Runnable() {
-	       public void run() {
-	            	BiddingWindow mono = new BiddingWindow(Integer.parseInt(m_numPlayers));
-	            }
-	});
-	}
-	
-	}
-	else
-	{
-	//Owned vProperty
-	//Two Cases, i.e) Owner can land on the property Or other person can land on the property
-	
-	//Owner landing on the property
-	if(tempPlayer.getName().equals(tempProp.getPlayer().getName()))
-	{
-	//Ask whether to buy the houses
-	//n is the variable that holds the return type
-	int n = 0;
-	int playerAvailableCash = tempPlayer.getAvailCash();
-	int housesBuilt = tempProp.getHousesBuilt();
-	int houseCost = tempProp.getTitleDeedCard().getHouseCost();
-	switch(housesBuilt)
-	{
-	case 0: 
-	n = monopolyUIObj.getOptions("Buy 1 house for " + houseCost);
-	if(n == 0)
-	{
-	if(playerAvailableCash > houseCost)
-	{
-	//Allow to Buy the house
-	tempProp.updateHousesBuilt();
-	tempPlayer.deductCash(houseCost);
-	availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
-	}
-	else
-	{
-	//To Do
-	//Player doesnt have cash to buy the house
-	}
-	}
-	else
-	{
-	//Player doesnt want to buy a house
-	}
-	break;
-	case 1: 
-	n = monopolyUIObj.getOptions("Buy 2nd house for " + houseCost);
-	if(n == 0)
-	{
-	if(playerAvailableCash > houseCost)
-	{
-	//Allow to Buy the house
-	tempProp.updateHousesBuilt();
-	tempPlayer.deductCash(houseCost);
-	availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
-	}
-	else
-	{
-	//To Do
-	//Player doesnt have cash to buy the house
-	}
-	}
-	else
-	{
-	//Player doesnt want to buy a house
-	}
-	break;
-	
-	case 2: 
-	n = monopolyUIObj.getOptions("Buy 3rd house for " + houseCost);
-	if(n == 0)
-	{
-	if(playerAvailableCash > houseCost)
-	{
-	//Allow to Buy the house
-	tempProp.updateHousesBuilt();
-	tempPlayer.deductCash(houseCost);
-	availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
-	}
-	else
-	{
-	//To Do
-	//Player doesnt have cash to buy the house
-	}
-	}
-	else
-	{
-	//Player doesnt want to buy a house
-	}
-	break;
-	case 3: 
-	n = monopolyUIObj.getOptions("Buy 4th house for " + houseCost);
-	if(n == 0)
-	{
-	if(playerAvailableCash > houseCost)
-	{
-	//Allow to Buy the house
-	tempProp.updateHousesBuilt();
-	tempPlayer.deductCash(houseCost);
-	availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
-	}
-	else
-	{
-	//To Do
-	//Player doesnt have cash to buy the house
-	}
-	}
-	else
-	{
-	//Player doesnt want to buy a house
-	}
-	break;
-	case 4: 
-	int hotelCost = tempProp.getTitleDeedCard().getHotelCost();
-	n = monopolyUIObj.getOptions("Buy Hotel for " + hotelCost);
-	if(n == 0)
-	{
-	if(playerAvailableCash > hotelCost)
-	{
-	//Allow to Buy the house
-	tempProp.updateHotelsBuilt();
-	tempPlayer.deductCash(hotelCost);
-	availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
-	}
-	else
-	{
-	//To Do
-	//Player doesnt have cash to buy the house
-	}
-	}
-	else
-	{
-	//Player doesnt want to buy a house
-	}
-	break;
-	
-	}
-	}
-	
-	//else other player landing on another player's property, in that case the player has to pay rent
-	else
-	{
-	//Dont pay rent if its mortgaged
-	if(tempProp.checkMortgageStatus() == false)
-	{
-	int rent = tempProp.getPropertyRent();
-	if(rent > tempPlayer.getAvailCash())
-	{
-	//Todo
-	//Show the user's property list and allow the user to sell or mortgage the property
-	//It needs to handle the condition where the user should pay or else the user should quit the game
-	}
-	else
-	{
-	//User have cash to pay the rent
-	tempPlayer.deductCash(rent);
-	tempProp.getPlayer().addCash(rent);
-	availCashLables.get(Integer.parseInt(tempProp.getPlayer().getName().split(" ")[1])-1).setText(Integer.toString(tempProp.getPlayer().getAvailCash()));
-	availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
-	}
-	}
-	
-	}
-	
-	}
-	}
-	else
-	{
-	//Landed on a Utility
-	Utility tempUtil = board.getUtility(xPos+":"+yPos);
-	String tempName = tempUtil.getUtilityName();
-	int playerAvailableCash = tempPlayer.getAvailCash();
-	if(tempUtil.isUtilityOwned() == false)
-	{
-	int amt = tempUtil.getPrice();
-	if(amt != 0)
-	{
-	if(tempName == "Income Tax")
-	{
-	if(playerAvailableCash > 20)
-	{
-	monopolyUIObj.showDisplayMessage("Income Tax cut fo 20$");
-	tempPlayer.deductCash(20);
-	availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+		tempProp = board.getProperty(xPos + ":" + yPos);
+		//Once landed check whether, its un owned
+		if(tempProp.isPropOwned() == false){
+			//Request the user whether to buy it action it
+			int n = JOptionPane.showOptionDialog(this, "Would you like to buy or bid the property?",
+					" Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 																								
+					options[0]); // default button title
+			
+			//Player wants to buy the property
+			if (n == 0)
+			{
+					if(tempProp.getPropertyPrice() < tempPlayer.getAvailCash())
+					{
+							tempPlayer.addProperty(tempProp);
+							tempPlayer.deductCash(tempProp.getPropertyPrice());
+							tempProp.setPlayer(tempPlayer);
+							tempProp.setPropertyOwned(true);
+							availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+					}
+					
+					else
+					{
+						//TODO
+						//Tell the User that the property can't be bought
+						sellItemsDisplay(tempPlayer);
+					}
+			}
+			else
+			{
+					BiddingWindow mono = new BiddingWindow(listOfPlayers);
+					tempPlayer = mono.getWinner();
+					tempPlayer.addProperty(tempProp);
+					tempPlayer.deductCash(tempProp.getPropertyPrice());
+					tempProp.setPlayer(tempPlayer);
+					tempProp.setPropertyOwned(true);
+					availCashLables.get(playerNumber - 1).setText(
+							Integer.toString(tempPlayer.getAvailCash()));
+			}
+			
+		}
+		else
+		{
+			//Owned vProperty
+			//Two Cases, i.e) Owner can land on the property Or other person can land on the property
+			
+			//Owner landing on the property
+			if(tempPlayer.getName().equals(tempProp.getPlayer().getName()))
+			{
+				//Ask whether to buy the houses
+				//n is the variable that holds the return type
+				int n = 0;
+				int playerAvailableCash = tempPlayer.getAvailCash();
+				int housesBuilt = tempProp.getHousesBuilt();
+				int houseCost = tempProp.getTitleDeedCard().getHouseCost();
+				switch(housesBuilt)
+				{
+				case 0: 
+					n = monopolyUIObj.getOptions("Buy 1 house for " + houseCost);
+					if(n == 0)
+					{
+						if(playerAvailableCash > houseCost)
+						{
+							//Allow to Buy the house
+							tempProp.updateHousesBuilt();
+							tempPlayer.deductCash(houseCost);
+							availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+						}
+						else
+						{
+							//To Do
+							//Player doesnt have cash to buy the house
+							sellItemsDisplay(tempPlayer);
+						}
+					}
+					else
+					{
+						//Player doesnt want to buy a house
+					}
+					break;
+				case 1: 
+					n = monopolyUIObj.getOptions("Buy 2nd house for " + houseCost);
+					if(n == 0)
+					{
+						if(playerAvailableCash > houseCost)
+						{
+							//Allow to Buy the house
+							tempProp.updateHousesBuilt();
+							tempPlayer.deductCash(houseCost);
+							availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+						}
+						else
+						{
+							//To Do
+							//Player doesnt have cash to buy the house
+							sellItemsDisplay(tempPlayer);
+						}
+					}
+					else
+					{
+						//Player doesnt want to buy a house
+					}
+					break;
+				
+				case 2: 
+					n = monopolyUIObj.getOptions("Buy 3rd house for " + houseCost);
+					if(n == 0)
+					{
+						if(playerAvailableCash > houseCost)
+						{
+							//Allow to Buy the house
+							tempProp.updateHousesBuilt();
+							tempPlayer.deductCash(houseCost);
+							availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+						}
+						else
+						{
+							//To Do
+							//Player doesnt have cash to buy the house
+							sellItemsDisplay(tempPlayer);
+						}
+					}
+					else
+					{
+						//Player doesnt want to buy a house
+					}
+					break;
+				case 3: 
+					n = monopolyUIObj.getOptions("Buy 4th house for " + houseCost);
+					if(n == 0)
+					{
+						if(playerAvailableCash > houseCost)
+						{
+							//Allow to Buy the house
+							tempProp.updateHousesBuilt();
+							tempPlayer.deductCash(houseCost);
+							availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+						}
+						else
+						{
+							//To Do
+							//Player doesnt have cash to buy the house
+							sellItemsDisplay(tempPlayer);
+						}
+					}
+					else
+					{
+						//Player doesnt want to buy a house
+					}
+					break;
+				case 4: 
+					int hotelCost = tempProp.getTitleDeedCard().getHotelCost();
+					n = monopolyUIObj.getOptions("Buy Hotel for " + hotelCost);
+					if(n == 0)
+					{
+						if(playerAvailableCash > hotelCost)
+						{
+							//Allow to Buy the house
+							tempProp.updateHotelsBuilt();
+							tempPlayer.deductCash(hotelCost);
+							availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+						}
+						else
+						{
+							//To Do
+							//Player doesnt have cash to buy the house
+							sellItemsDisplay(tempPlayer);
+						}
+					}
+					else
+					{
+						//Player doesnt want to buy a house
+					}
+					break;
+					
+				}
+			}
+			
+			//else other player landing on another player's property, in that case the player has to pay rent
+			else
+			{
+				//Dont pay rent if its mortgaged
+				if(tempProp.checkMortgageStatus() == false)
+				{
+					int rent = tempProp.getPropertyRent();
+					if(rent > tempPlayer.getAvailCash())
+					{
+						//Todo
+						//Show the user's property list and allow the user to sell or mortgage the property
+						//It needs to handle the condition where the user should pay or else the user should quit the game
+						sellItemsDisplay(tempPlayer);
+					}
+					else
+					{
+						//User have cash to pay the rent
+						tempPlayer.deductCash(rent);
+						tempProp.getPlayer().addCash(rent);
+						availCashLables.get(Integer.parseInt(tempProp.getPlayer().getName().split(" ")[1])-1).setText(Integer.toString(tempProp.getPlayer().getAvailCash()));
+						availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+					}
+				}
+				
+			}
+			
+		}
 	}
 	else
 	{
-	//Todo the player doesnt have cash to pay the rent
+		//Landed on a Utility
+		Utility tempUtil = board.getUtility(xPos+":"+yPos);
+		String tempName = tempUtil.getUtilityName();
+		int playerAvailableCash = tempPlayer.getAvailCash();
+		if(tempUtil.isUtilityOwned() == false)
+		{
+			int amt = tempUtil.getPrice();
+			if(amt != 0)
+			{
+				if(tempName == "Income Tax")
+				{
+					if(playerAvailableCash > 20)
+					{
+						monopolyUIObj.showDisplayMessage("Income Tax cut fo 20$");
+						tempPlayer.deductCash(20);
+						availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+					}
+					else
+					{
+						//Todo the player doesnt have cash to pay the rent
+						sellItemsDisplay(tempPlayer);
+					}
+				}
+				else if(tempName == "Luxury Tax")
+				{
+					if(playerAvailableCash > 20)
+					{
+						monopolyUIObj.showDisplayMessage("Luxury Tax cut fo 20$");
+						tempPlayer.deductCash(20);
+						availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+					}
+					else
+					{
+						//Todo the player doesnt have cash to pay the rent
+						sellItemsDisplay(tempPlayer);
+					}
+				}
+				
+				else if(tempName.toLowerCase().contains("jail"))
+				{
+					tempPlayer.setJailed(true);
+				}
+					
+				else if(tempName == "Go")
+				{
+					monopolyUIObj.showDisplayMessage("The player gets awarded 200$ for completing a turn");
+					tempPlayer.addCash(200);
+					availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+				}
+				else if(tempName.toLowerCase().contains("railroad"))
+				{
+					int n = monopolyUIObj.getOptions("Buy"+ tempName + "for " + amt );
+					if(n == 0)
+					{
+						tempPlayer.addUtility(tempUtil);
+						tempPlayer.deductCash(amt);
+						tempUtil.updateUtilityOwned(tempPlayer);
+						tempUtil.setUtilityOwned(true);
+						availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+					}
+					//Else do nothing
+				}
+			}
+		}
+		else
+		{
+			//Rail road is owned by someone.
+			//Pay the rent 
+			if(tempName.toLowerCase().contains("railroad"))
+			{
+				tempPlayer.deductCash(20);
+				tempUtil.getPlayer().addCash(20);
+				availCashLables.get(Integer.parseInt(tempUtil.getPlayer().getName().split(" ")[1])-1).setText(Integer.toString(tempUtil.getPlayer().getAvailCash()));
+				availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+			}
+		}
 	}
-	}
-	else if(tempName == "Luxury Tax")
-	{
-	if(playerAvailableCash > 20)
-	{
-	monopolyUIObj.showDisplayMessage("Luxury Tax cut fo 20$");
-	tempPlayer.deductCash(20);
-	availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
-	}
-	else
-	{
-	//Todo the player doesnt have cash to pay the rent
-	}
-	}
-	
-	else if(tempName.toLowerCase().contains("jail"))
-	{
-	tempPlayer.setJailed(true);
-	}
-	
-	else if(tempName == "Go")
-	{
-	monopolyUIObj.showDisplayMessage("The player gets awarded 200$ for completing a turn");
-	tempPlayer.addCash(200);
-	availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
-	}
-	else if(tempName.toLowerCase().contains("railroad"))
-	{
-	int n = monopolyUIObj.getOptions("Buy"+ tempName + "for " + amt );
-	if(n == 0)
-	{
-	tempPlayer.addUtility(tempUtil);
-	tempPlayer.deductCash(amt);
-	tempUtil.updateUtilityOwned(tempPlayer);
-	tempUtil.setUtilityOwned(true);
-	availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
-	}
-	//Else do nothing
-	}
-	
-	
-	}
-	}
-	
-	else
-	{
-	//Rail road is owned by someone.
-	//Pay the rent 
-	if(tempName.toLowerCase().contains("railroad"))
-	{
-	tempPlayer.deductCash(20);
-	tempUtil.getPlayer().addCash(20);
-	availCashLables.get(Integer.parseInt(tempUtil.getPlayer().getName().split(" ")[1])-1).setText(Integer.toString(tempUtil.getPlayer().getAvailCash()));
-	availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
-	}
-	}
-	
-	}
-	
-	
 }
 
 public void sellItemsDisplay(Player player)
 {
+	Map<String,Property> map = new HashMap<String,Property>();
+	SellWindow obj = new SellWindow();
+	String[] propList = new String[(int)player.getPropList().size()];
+	int i = 0;
+	for(Property prop : player.getPropList())
+	{
+		propList[i] = prop.getPropertyName();
+		map.put(prop.getPropertyName(), prop);
+		i++;
+	}
+	
+	String[] option = obj.createWindow(propList).split(":");
+	if(option[0].equals("Mortgage"))
+	{
+		//Mortgage the property to the Bank
+		Property prop = map.get(option[1]);
+		prop.setPropMortgaged(true);
+		player.addCash(prop.getTitleDeedCard().getMortgageValue());
+		player.addMortgageProperty(prop);
+		player.removeProperty(prop);
+	}
+	else if(option[0].equals("Sell"))
+	{
+		//Triger the sell/Bid window.
+		
+		//Find the winner of the property &  Sell the property 
+	}
 	
 }
 
@@ -1365,8 +1400,8 @@ public int getOptions(String message)
 {
 	Object[] options = { "Buy", "Auction" };
 	int n = JOptionPane.showOptionDialog(this, message,
-	"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 	
-	options[0]);
+			"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, 																								
+			options[0]);
 	return n;
 }
 }
