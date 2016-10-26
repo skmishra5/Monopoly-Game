@@ -71,7 +71,7 @@ public MonopolyUI()
 }
 
 
-public void startTimer(){
+/*public void startTimer(){
 	counter = 20;
 	JPanel timePane = new JPanel();
 	JLabel timerLabel = new JLabel("");
@@ -89,12 +89,11 @@ public void startTimer(){
 				else {
 					JOptionPane.showInputDialog(this, "Bidding unsuccessful");
 					// frame.dispose();
-				}
 			}
 		};
 		timer = new Timer(1000, taskPerformer);
 		timer.start();
-}
+}*/
 	
 
 
