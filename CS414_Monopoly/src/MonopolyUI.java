@@ -38,7 +38,7 @@ public class MonopolyUI extends JFrame implements ActionListener{
 	JTextField diceValue1 = new JTextField("0", 5);
 	JTextField diceValue2 = new JTextField("0", 5);
 	Random randDiceValue = new Random();
-	ArrayList<Player> listOfPlayers = new ArrayList<Player>();
+	static ArrayList<Player> listOfPlayers = new ArrayList<Player>();
 	Player player;
 	Property property;
 	Block block;
@@ -562,7 +562,7 @@ public MonopolyUI(String numPlayers) {
                         	if((token != null)){
                         		mainPanel.add(token);}
                         	String playerName = "Player" + " " + k;
-                        	int cash = 200;
+                        	int cash = 1500;
                         	player = new Player(playerName, gridX, gridY, cash); 
                         	listOfPlayers.add(player);
                         	player.setMajorPos(j);
@@ -772,7 +772,7 @@ public MonopolyUI(String numPlayers) {
         		playerEventHandling(playerInfo, i);
         		String balance = "Balance:";
         		JLabel Balance = new JLabel(balance);
-        		String amount = "$200";
+        		String amount = "$1500";
         		Amount = new JLabel(amount);
         		availCashLables.add(Amount);
         		JButton rollDice = new JButton("Roll Dice");
@@ -836,6 +836,11 @@ public void showMessage(int plNum)
 	JOptionPane.showMessageDialog(this, msg);
 }
 
+public void showDisplayMessage(String msg)
+{
+	JOptionPane.showMessageDialog(this, msg);
+}
+
 public void titleDeedCardEventHandling(JButton td, String loc)
 {
 	td.addActionListener(new ActionListener() {
@@ -861,7 +866,7 @@ public void showMessage(String loc)
 
 @Override
 public void actionPerformed(ActionEvent e) {
-	
+	MonopolyUI monopolyUIObj = new MonopolyUI();
 	m_playerTurn += 1;
 	if(m_playerTurn <= Integer.parseInt(m_numPlayers))
 	{
@@ -876,12 +881,44 @@ public void actionPerformed(ActionEvent e) {
 		playerCountRollDice.setText("Player: " + m_playerTurn);
 	}
 	
-	int firstDiceValue1 = randDiceValue.nextInt(6) + 1;
-	diceValue1.setText(Integer.toString(firstDiceValue1));
-	int firstDiceValue2 = randDiceValue.nextInt(6) + 1;
-	diceValue2.setText(Integer.toString(firstDiceValue2));
 	
-	handlePlayerMovement(m_playerTurn, firstDiceValue1, firstDiceValue2);
+	int[] diceVal = null;
+	int rollCount = 0;
+	do
+	{
+		Player tempPlayer = listOfPlayers.get(m_playerTurn-1);
+		if(rollCount == 1)
+			monopolyUIObj.showDisplayMessage("Player gets a chance to roll the dice again");
+		//Goto Jail when rolling double for the third time
+		else if(rollCount==2)
+		{
+			monopolyUIObj.showDisplayMessage("Player rolled thrice the dice of same value and lands in Jail");
+			tempPlayer.setJailed(true);
+			break;
+		}
+		diceVal = monopolyUIObj.throwDice();
+		//Move only if the player is not jailed
+		if(tempPlayer.isJailed() == false)
+			handlePlayerMovement(m_playerTurn, diceVal[0], diceVal[1]);
+		else
+			tempPlayer.setJailed(false);
+		
+		rollCount++;
+		
+	}while(diceVal[0] == diceVal[1]);
+	
+	
+}
+
+public int[] throwDice()
+{
+	int[] diceVal = null ;
+	diceVal[0]  = randDiceValue.nextInt(6) + 1;
+	diceValue1.setText(Integer.toString(diceVal[0]));
+	diceVal[1] = randDiceValue.nextInt(6) + 1;
+	diceValue2.setText(Integer.toString(diceVal[1]));
+	return diceVal;
+	
 }
 
 public void handlePlayerMovement(int playerNumber, int dVal1, int dVal2)
@@ -1038,6 +1075,7 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 	//Condition to check whether the landed place is a property
 	if(tempBlk.getPropUtil() == propUtil.PROPERTY)
 	{
+		tempProp = board.getProperty(xPos + ":" + yPos);
 		//Once landed check whether, its un owned
 		if(tempProp.isPropOwned() == false){
 			//Request the user whether to buy it action it
@@ -1224,7 +1262,7 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 						//User have cash to pay the rent
 						tempPlayer.deductCash(rent);
 						tempProp.getPlayer().addCash(rent);
-						availCashLables.get(Integer.parseInt(tempProp.getPlayer().getName().split("")[1])-1).setText(Integer.toString(tempProp.getPlayer().getAvailCash()));
+						availCashLables.get(Integer.parseInt(tempProp.getPlayer().getName().split(" ")[1])-1).setText(Integer.toString(tempProp.getPlayer().getAvailCash()));
 						availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
 					}
 				}
@@ -1237,31 +1275,54 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 	{
 		//Landed on a Utility
 		Utility tempUtil = board.getUtility(xPos+":"+yPos);
+		String tempName = tempUtil.getUtilityName();
+		int playerAvailableCash = tempPlayer.getAvailCash();
 		if(tempUtil.isUtilityOwned() == false)
 		{
 			int amt = tempUtil.getPrice();
 			if(amt != 0)
 			{
-				String tempName = tempUtil.getUtilityName();
 				if(tempName == "Income Tax")
 				{
+					if(playerAvailableCash > 20)
+					{
+						monopolyUIObj.showDisplayMessage("Income Tax cut fo 20$");
 						tempPlayer.deductCash(20);
 						availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+					}
+					else
+					{
+						//Todo the player doesnt have cash to pay the rent
+					}
 				}
 				else if(tempName == "Luxury Tax")
 				{
+					if(playerAvailableCash > 20)
+					{
+						monopolyUIObj.showDisplayMessage("Luxury Tax cut fo 20$");
 						tempPlayer.deductCash(20);
 						availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+					}
+					else
+					{
+						//Todo the player doesnt have cash to pay the rent
+					}
+				}
+				
+				else if(tempName.toLowerCase().contains("jail"))
+				{
+					tempPlayer.setJailed(true);
 				}
 					
 				else if(tempName == "Go")
 				{
+					monopolyUIObj.showDisplayMessage("The player gets awarded 200$ for completing a turn");
 					tempPlayer.addCash(200);
 					availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
 				}
-				else
+				else if(tempName.toLowerCase().contains("railroad"))
 				{
-					int n = monopolyUIObj.getOptions("Buy RailRoad for " + amt );
+					int n = monopolyUIObj.getOptions("Buy"+ tempName + "for " + amt );
 					if(n == 0)
 					{
 						tempPlayer.addUtility(tempUtil);
@@ -1281,10 +1342,22 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 		{
 			//Rail road is owned by someone.
 			//Pay the rent 
+			if(tempName.toLowerCase().contains("railroad"))
+			{
+				tempPlayer.deductCash(20);
+				tempUtil.getPlayer().addCash(20);
+				availCashLables.get(Integer.parseInt(tempUtil.getPlayer().getName().split(" ")[1])-1).setText(Integer.toString(tempUtil.getPlayer().getAvailCash()));
+				availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+			}
 		}
 		
 	}
 	
+	
+}
+
+public void sellItemsDisplay(Player player)
+{
 	
 }
 
