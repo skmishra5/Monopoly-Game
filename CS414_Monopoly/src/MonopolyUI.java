@@ -597,7 +597,7 @@ public MonopolyUI(String numPlayers) {
                         	if((token != null)){
                         		mainPanel.add(token);}
                         	String playerName = "Player" + " " + k;
-                        	int cash = 2000;
+                        	int cash = 1500;
                         	player = new Player(playerName, gridX, gridY, cash); 
                         	listOfPlayers.add(player);
                         	player.setMajorPos(j);
@@ -807,7 +807,7 @@ public MonopolyUI(String numPlayers) {
         		playerEventHandling(playerInfo, i);
         		String balance = "Balance:";
         		JLabel Balance = new JLabel(balance);
-        		String amount = "$2000";
+        		String amount = "$1500";
         		Amount = new JLabel(amount);
         		availCashLables.add(Amount);
         		JButton rollDice = new JButton("Roll Dice");
@@ -947,6 +947,8 @@ public void actionPerformed(ActionEvent e) {
 	
 	Player tempPlayer = listOfPlayers.get(m_playerTurn-1);
 	//Give the player an option to unmortgage a property during the players turn
+	int getPreviousMajorPos = tempPlayer.getMajorPos();
+	
 	if(tempPlayer.getMortgagePropList().size() > 0)
 	{
 		//Unmortgage Option should be provided
@@ -1009,6 +1011,13 @@ public void actionPerformed(ActionEvent e) {
 		
 	}while(diceVal[0] == diceVal[1]);
 	
+	//Go turn for 200$ code here
+	if(getPreviousMajorPos == 3 && tempPlayer.getMajorPos() == 2)
+	{
+		monopolyUIObj.showDisplayMessage("The player gets awarded 200$ for completing a turn");
+		tempPlayer.addCash(200);
+		availCashLables.get(m_playerTurn-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+	}
 	
 }
 
@@ -1422,9 +1431,9 @@ public void takeAction(JButton tempBtn, Player tempPlayer, int xPos, int yPos, i
 					
 				else if(tempName == "Go")
 				{
-					monopolyUIObj.showDisplayMessage("The player gets awarded 200$ for completing a turn");
-					tempPlayer.addCash(200);
-					availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
+//					monopolyUIObj.showDisplayMessage("The player gets awarded 200$ for completing a turn");
+//					tempPlayer.addCash(200);
+//					availCashLables.get(playerNumber-1).setText(Integer.toString(tempPlayer.getAvailCash()));
 				}
 				else if(tempName.toLowerCase().contains("railroad"))
 				{
