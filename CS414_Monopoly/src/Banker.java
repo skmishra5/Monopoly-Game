@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class Banker {
-	private ArrayList<Player> playerList;
-	private ArrayList<Property> propertyList;
-	private ArrayList<Property> mortPropList;
+	private ArrayList<Player> playerList = new ArrayList<Player>;
+	private ArrayList<Property> propertyList = new ArrayList<Property>;
+	private ArrayList<Property> mortPropList = new ArrayList<Property>;
 	private int availHouses;
 	private int availHotels;
 	private int availCash;
