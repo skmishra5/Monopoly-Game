@@ -4,67 +4,42 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class BlockTest {
-	private String testdescription;
-	private PropUtil testpropUtil;
 
+	public static final String testdescription="Test Block1";
+	public static final String testdescription1="Test Block2";
+	private PropUtil testpropUtil;
+	private Block testBlock;
+	
 	@Before
 	public void setup(){
-		
+		testpropUtil = PropUtil.PROPERTY;
+		testBlock= new Block(testdescription, testpropUtil);
 	}
-	/**
-	 * Test method for {@link Block#Block(java.lang.String, PropUtil)}.
-	 */
 	@Test
 	public void testBlock() {
+	Block testBlock1= new Block(testdescription, testpropUtil);
+	assertEquals(testBlock1.getClass(), testBlock.getClass());
+	}
+
+	@Test
+	public void testSetGetDescription() {
+		assertEquals(testdescription, testBlock.getDescription());
+		testBlock.setDescription(testdescription1);
+		assertNotEquals(testdescription, testBlock.getDescription());
+		assertEquals(testdescription1, testBlock.getDescription());
 		
 	}
 
-	/**
-	 * Test method for {@link Block#getImage()}.
-	 */
+	
 	@Test
-	public void testGetImage() {
-		fail("Not yet implemented");
+	public void testSetGetPropUtil() {
+		assertEquals(testBlock.getPropUtil(), testpropUtil);
+		testBlock.setPropUtil(PropUtil.UTILITY);
+		Block testBlock1= new Block(testdescription, testpropUtil);
+		assertEquals(testBlock1.getPropUtil(), testpropUtil);
+		testBlock1.setPropUtil(PropUtil.UTILITY);
+		assertNotEquals(testBlock1.getPropUtil(), testpropUtil);
 	}
 
-	/**
-	 * Test method for {@link Block#setImage(java.awt.Image)}.
-	 */
-	@Test
-	public void testSetImage() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link Block#getDescription()}.
-	 */
-	@Test
-	public void testGetDescription() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link Block#setDescription(java.lang.String)}.
-	 */
-	@Test
-	public void testSetDescription() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link Block#getPropUtil()}.
-	 */
-	@Test
-	public void testGetPropUtil() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link Block#setPropUtil(PropUtil)}.
-	 */
-	@Test
-	public void testSetPropUtil() {
-		fail("Not yet implemented");
-	}
-
+	
 }

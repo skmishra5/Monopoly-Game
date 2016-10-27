@@ -75,7 +75,8 @@ public class MonopolyUI extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				timerLabel.setText("Time Remaining: " + counter--);
+				counter --;
+				timerLabel.setText("Time Remaining: " + counter/60 + "mins");
 				if (counter < 0) {
 					JOptionPane.showInputDialog("Game ends!", "Time up");
 					timer.removeActionListener(this);

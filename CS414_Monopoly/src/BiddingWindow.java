@@ -32,7 +32,7 @@ public class BiddingWindow extends JFrame {
 		JLabel timerLabel = new JLabel("");
 		timePane.add(timerLabel);
 		frame.add(timePane);
-		counter = 20;
+		counter = 30;
 		ActionListener taskPerformer = new ActionListener() {
 
 			@Override
