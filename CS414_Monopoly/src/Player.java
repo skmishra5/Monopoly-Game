@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class Player {
 	private String name;
-	private String tokenImage;
 	private int xPos;
 	private int yPos;
 	private ArrayList<Property> propList = new ArrayList<Property>();
@@ -25,12 +24,7 @@ public class Player {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getTokenImage() {
-		return tokenImage;
-	}
-	public void setTokenImage(String tokenImage) {
-		this.tokenImage = tokenImage;
-	}
+
 	public int getxPos() {
 		return xPos;
 	}
@@ -74,11 +68,6 @@ public class Player {
 		this.isJailed = isJailed;
 	}
 	
-	public void movePosn(int[] rolledDice)
-	{
-		
-	}
-	
 	public void updatePosn(int xPos, int yPos)
 	{
 		this.xPos = xPos;
@@ -120,8 +109,6 @@ public class Player {
 	{
 		this.utilList.remove(u);
 	}
-	
-	
 	
 	public void addMortgageProperty(Property p)
 	{

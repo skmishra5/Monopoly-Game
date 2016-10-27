@@ -4,12 +4,19 @@ import java.util.HashMap;
 import javax.swing.JButton;
 
 public class Board {
-	HashMap<String, String> m_blockLocation = new HashMap<String, String>();
-	HashMap<String, ArrayList> m_playerBtnLocation =  new HashMap<String, ArrayList>();
-	HashMap<String, Property> m_propList =  new HashMap<String, Property>();
-	HashMap<String, Utility> m_utilList =  new HashMap<String, Utility>();
-	HashMap<String, Block> listOfBlocks = new HashMap<String, Block>();
+	private HashMap<String, String> m_blockLocation;
+	private HashMap<String, ArrayList<JButton>> m_playerBtnLocation;
+	private HashMap<String, Property> m_propList;
+	private HashMap<String, Utility> m_utilList;
+	private HashMap<String, Block> listOfBlocks;
 	
+	public Board(){
+		m_blockLocation = new HashMap<String, String>();
+		m_playerBtnLocation =  new HashMap<String, ArrayList<JButton>>(); 
+		m_propList =  new HashMap<String, Property>();
+		m_utilList =  new HashMap<String, Utility>();
+		listOfBlocks = new HashMap<String, Block>();
+	}
 	
 	public void setBlockLocation(String propName, String coordinate)
 	{
@@ -31,26 +38,26 @@ public class Board {
 		return blockLocation;
 	}
 	
-	public void setPlayerLocation(String loc, ArrayList buttonObject)
+	public void setPlayerLocation(String loc, ArrayList<JButton> buttonObject)
 	{
 		m_playerBtnLocation.put(loc, buttonObject);
 	}
 	
 	public JButton getPlayerLocation(int gridX, int gridY, int player)
 	{
-		JButton tempButton = null;
+		JButton tempButton = new JButton();
 		String tempLoc = gridX + ":" + gridY;
 		ArrayList<JButton> tempList  = new ArrayList<JButton>();
 		if(m_playerBtnLocation.containsKey(tempLoc))
 		{
 			tempList = m_playerBtnLocation.get(tempLoc);
+			tempButton = tempList.get(player-1);
 		}
 		else
 		{
 			System.out.println("Incorrect grid location");
+			tempButton= null;
 		}
-		
-		tempButton = tempList.get(player-1);
 		
 		return tempButton;
 	}

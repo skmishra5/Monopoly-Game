@@ -1,7 +1,6 @@
-import java.awt.Image;
 
 public class Block {
-	private Image image;
+	
 	private String description;
 	private PropUtil propUtil;
 	/**
@@ -13,12 +12,7 @@ public class Block {
 		this.description = description;
 		this.propUtil = propUtil;
 	}
-	public Image getImage() {
-		return image;
-	}
-	public void setImage(Image image) {
-		this.image = image;
-	}
+
 	public String getDescription() {
 		return description;
 	}

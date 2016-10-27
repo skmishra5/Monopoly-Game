@@ -81,7 +81,7 @@ public class BiddingWindow extends JFrame {
 
 					} else {
 						JOptionPane.showMessageDialog(frame, "Bidding unsuccessful");
-						// frame.dispose();
+						 frame.dispose();
 					}
 				}
 			}
