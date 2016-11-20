@@ -82,4 +82,4 @@ Section 2:
 -- No external jar dependencies are required.
 -- Handles auction, monopoly, sell condition , Community and Chance cards, and all the conditions mentioned above.
 -- We have used Broker and Grasp Patterns. 
--- 
+-- All the features work for non-distributed applications as well.
