@@ -1,6 +1,7 @@
 # cs414_Project
 Monopoly
 
+Section 1:
 1. Import the project in Eclipse. 
 
 2. The StartMonopoly class contains the main method. Select this file and start running the application.
@@ -68,3 +69,17 @@ The use cases which have been covered in the imlementation are listed below.
 21. Jail: Coming out of jail
 
 22. End of Game: Time limit  
+
+Section 2:
+# Instructions to the run the game in Distributed way:
+
+1. Login to the server and set the server and mention the time limit. Give the command as rmiregistry on the server machine.
+2. Run the server from the class StartServer and provide the arguments as the hostname , port number which the clients should connect to,  the total number of players(By default 4) and the time duration in minutes.
+3. Once the server starts running, connect the clients one by one. These can be on different machines. 
+4. To run the clients, run MonopolyClient class with the arguments as the server's hostname and the port number.
+5. Once all the 4 clients have connected start playing the game as mentioned in points in Section 1.
+
+-- No external jar dependencies are required.
+-- Handles auction, monopoly, sell condition , Community and Chance cards, and all the conditions mentioned above.
+-- We have used Broker and Grasp Patterns. 
+-- 
